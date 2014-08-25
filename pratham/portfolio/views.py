@@ -5,6 +5,7 @@ from utils import handle_upload_file, match_buys_for_sells, update_gains_df_for_
 
 # Create your views here.
 def index(request):
+    print "Index.."
     error_message = success_message = ''
     recent_txn = Transaction.objects.all()
     buy_txn = [ txn for txn in recent_txn if 'B' == txn.buysell ]
@@ -16,6 +17,7 @@ def index(request):
     return render(request, 'portfolio/index.html', {'num_buy_txn': num_buy_txn, 'num_sell_txn': num_sell_txn, 'sum_buy_netamt': sum_buy_netamt, 'sum_sell_netamt': sum_sell_netamt, 'error_message':error_message, 'success_message':success_message})
 
 def detail(request, txn_id):
+    print "Detail.."
     txn = get_object_or_404(Transaction, pk=txn_id)
     error_message = success_message = ''
     if request.method == 'POST':
