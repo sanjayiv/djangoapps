@@ -1,0 +1,33 @@
+{% extends 'portfolio/dashboard.html' %} 
+
+{% block leftnav %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'portfolio' %}">Portfolio</a></li>
+    <li><a href="{% url 'gains' %}">Gains</a></li>
+    <li><a href="{% url 'history' %}">Transaction History</a></li>
+    <li class="active"><a href="{% url 'upload' %}">Upload</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">Export</a></li>
+{% endblock %}
+
+{% block content %}
+<h1> Previously Uploaded Transaction CSV </h1>
+<ul>
+  {% for txncsv in prev_csv %}
+  <li> {{ txncsv.print_pretty }} </li>
+  {% endfor %}
+</ul>
+
+<h1> Upload Transaction CSV </h1>
+
+{% if success_message %}<p><strong><u>{{ success_message }}</u></strong></p>{% endif %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ upload_form }}
+  <input type="submit" value="Upload" />
+</form>
+
+<a href="{% url 'index' %}"> Show All </a>
+{% endblock %}

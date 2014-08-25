@@ -1,0 +1,62 @@
+{% extends 'portfolio/dashboard.html' %} 
+
+{% block leftnav %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'portfolio' %}">Portfolio</a></li>
+    <li class="active"><a href="{% url 'gains' %}">Gains</a></li>
+    <li><a href="{% url 'history' %}">Transaction History</a></li>
+    <li><a href="{% url 'upload' %}">Upload</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">Export</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% if success_message %}<p><strong><u>{{ success_message }}</u></strong></p>{% endif %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<p><strong>{{sum_gain_price}}</p></strong>
+<p><strong>{{sum_gain_tbt}}</p></strong>
+<p><strong>{{sum_stcg_tax}}</p></strong>
+<p><strong>{{gains_dict}}</p></strong>
+
+{% if not gains_df.empty %}
+<h2 class="sub-header">Recent Transactions</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Scrip</th>
+        <th>Quantity</th>
+        <th>Sell Date</th>
+        <th>Sell Price</th>
+        <th>Buy Date</th>
+        <th>Buy Price</th>
+        <th>Gain PS</th>
+        <th>Gain TBT PS</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for irow, txn in gains_df.iterrows %}
+      <tr>
+        <td>{{irow}}</td>
+        <td>{{txn.scrip}}</td>
+        <td>{{txn.qty}}</td>
+        <td>{{txn.sell_datetime}}</td>
+        <td>{{txn.sell_price_ps}}</td>
+        <td>{{txn.buy_datetime}}</td>
+        <td>{{txn.buy_price_ps}}</td>
+        <td>{{txn.gain_price_ps}}</td>
+        <td>{{txn.gain_tbt_ps}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+<p>No transactions.</p>
+{% endif %}
+
+{% endblock %}

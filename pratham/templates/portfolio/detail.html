@@ -1,0 +1,16 @@
+<ul>
+<li>{{ txn.print_pretty }}</li>
+</ul>
+
+<h1> Edit Transaction </h1>
+
+{% if success_message %}<p><strong><u>{{ success_message }}</u></strong></p>{% endif %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'detail' txn.id %}" method="post">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" value="Save" />
+</form>
+
+<a href="{% url 'index' %}"> Show All </a>

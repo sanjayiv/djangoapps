@@ -1,0 +1,96 @@
+{% extends 'portfolio/dashboard.html' %} 
+
+{% block leftnav %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'portfolio' %}">Portfolio</a></li>
+    <li><a href="{% url 'gains' %}">Gains</a></li>
+    <li class="active"><a href="{% url 'history' %}">Transaction History</a></li>
+    <li><a href="{% url 'upload' %}">Upload</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">Export</a></li>
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'upload' %}"> Upload </a>
+
+{% if success_message %}<p><strong><u>{{ success_message }}</u></strong></p>{% endif %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<h2 class="sub-header">Add Transaction</h2>
+<form action="{% url 'index' %}" method="post">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" value="Add" />
+</form>
+
+{% if buy_txn %}
+<h2 class="sub-header">Recent BUYs</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>TrdDate</th>
+        <th>Scrip</th>
+        <th>Buy/Sell</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for txn in buy_txn %}
+      <tr>
+        <td>{{txn.id}}</td>
+        <td>{{txn.trd_dt}}</td>
+        <td>{{txn.scrip}}</td>
+        <td>{{txn.buysell}}</td>
+        <td>{{txn.quantity}}</td>
+        <td>{{txn.price}}</td>
+        <td>{{txn.value}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+<p>No BUY transaction.</p>
+{% endif %}
+
+{% if sell_txn %}
+<h2 class="sub-header">Recent SELLs</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>TrdDate</th>
+        <th>Scrip</th>
+        <th>Buy/Sell</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for txn in sell_txn %}
+      <tr>
+        <td>{{txn.id}}</td>
+        <td>{{txn.trd_dt}}</td>
+        <td>{{txn.scrip}}</td>
+        <td>{{txn.buysell}}</td>
+        <td>{{txn.quantity}}</td>
+        <td>{{txn.price}}</td>
+        <td>{{txn.value}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+<p>No BUY transaction.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'portfolio/dashboard.html' %} 
+
+{% block leftnav %}
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li class="active"><a href="{% url 'portfolio' %}">Portfolio</a></li>
+    <li><a href="{% url 'gains' %}">Gains</a></li>
+    <li><a href="{% url 'history' %}">Transaction History</a></li>
+    <li><a href="{% url 'upload' %}">Upload</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">Export</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% if success_message %}<p><strong><u>{{ success_message }}</u></strong></p>{% endif %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% if not holding_df.empty %}
+<h2 class="sub-header">Portfolio Holding Transactions</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>TrdDate</th>
+        <th>Scrip</th>
+        <th>Buy/Sell</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Value</th>
+        <th>BrokAmt</th>
+        <th>NetAmt</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for irow, txn in holding_df.iterrows %}
+      <tr>
+        <td>{{irow}}</td>
+        <td>{{txn.trddatetime}}</td>
+        <td>{{txn.scrip}}</td>
+        <td>{{txn.buysell}}</td>
+        <td>{{txn.qty}}</td>
+        <td>{{txn.price}}</td>
+        <td>{{txn.value}}</td>
+        <td>{{txn.brokamt}}</td>
+        <td>{{txn.netamt}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+<p>No transactions.</p>
+{% endif %}
+
+{% endblock %}

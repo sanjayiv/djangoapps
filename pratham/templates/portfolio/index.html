@@ -1,0 +1,22 @@
+{% extends 'portfolio/dashboard.html' %} 
+
+{% block leftnav %}
+    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'portfolio' %}">Portfolio</a></li>
+    <li><a href="{% url 'gains' %}">Gains</a></li>
+    <li><a href="{% url 'history' %}">Transaction History</a></li>
+    <li><a href="{% url 'upload' %}">Upload</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">Export</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% if success_message %}<p><strong><u>{{ success_message }}</u></strong></p>{% endif %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<p><strong> Buy Transactions# {{num_buy_txn}} </p></strong>
+<p><strong> Sell Transactions# {{num_sell_txn}} </p></strong>
+<p><strong> Buy Transactions NetAmount: {{sum_buy_netamt}} </p></strong>
+<p><strong> Sell Transactions NetAmount: {{sum_sell_netamt}} </p></strong>
+{% endblock %}
